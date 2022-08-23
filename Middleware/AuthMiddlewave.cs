@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace OpenAPI.AuthMiddlewaves
+namespace OpenAPI.Middleware
 {
     public static class AuthMiddlewave
     {

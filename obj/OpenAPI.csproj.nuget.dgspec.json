@@ -1,33 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ADMIN\\Desktop\\OpenAPI\\OpenAPI\\OpenAPI.csproj": {}
+    "D:\\HungTD\\C#\\open-api\\OpenAPI\\OpenAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ADMIN\\Desktop\\OpenAPI\\OpenAPI\\OpenAPI.csproj": {
+    "D:\\HungTD\\C#\\open-api\\OpenAPI\\OpenAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ADMIN\\Desktop\\OpenAPI\\OpenAPI\\OpenAPI.csproj",
+        "projectUniqueName": "D:\\HungTD\\C#\\open-api\\OpenAPI\\OpenAPI.csproj",
         "projectName": "OpenAPI",
-        "projectPath": "C:\\Users\\ADMIN\\Desktop\\OpenAPI\\OpenAPI\\OpenAPI.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ADMIN\\Desktop\\OpenAPI\\OpenAPI\\obj\\",
+        "projectPath": "D:\\HungTD\\C#\\open-api\\OpenAPI\\OpenAPI.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\HungTD\\C#\\open-api\\OpenAPI\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 18.1.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 19.1.config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\DevExpress 18.1\\Components\\System\\Components\\Packages": {},
-          "C:\\Program Files (x86)\\DevExpress 19.1\\Components\\System\\Components\\Packages": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
@@ -79,6 +72,14 @@
               "target": "Package",
               "version": "[6.0.8, )"
             },
+            "NSwag.AspNetCore": {
+              "target": "Package",
+              "version": "[13.16.1, )"
+            },
+            "NSwag.Generation": {
+              "target": "Package",
+              "version": "[13.16.1, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
@@ -106,7 +107,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }

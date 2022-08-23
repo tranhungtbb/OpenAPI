@@ -14,11 +14,11 @@ namespace OpenAPI.BusinessLogic.Product.Commands.CreateProduct
 
     public class CreateTodoListCommandHandler : IRequestHandler<CreateProductCommand, int>
     {
-        private readonly IRepository<OpenAPI.Models.Entity.Product> _context;
+        private readonly IProductRepository _productRepository;
 
-        public CreateTodoListCommandHandler(IRepository<OpenAPI.Models.Entity.Product> context)
+        public CreateTodoListCommandHandler(IProductRepository productRepository)
         {
-            _context = context;
+            _productRepository = productRepository;
         }
 
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -31,9 +31,9 @@ namespace OpenAPI.BusinessLogic.Product.Commands.CreateProduct
                 Quantity = request.Quantity
             };
 
-            _context.Add(entity);
+            await _productRepository.AddAsync(entity);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await _productRepository.SaveChangesAsync(cancellationToken);
 
             return entity.Id;
         }

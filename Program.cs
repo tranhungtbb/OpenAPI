@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using OpenAPI.Filter;
 using FluentValidation.AspNetCore;
 using System.Text.Json.Serialization;
-using OpenAPI.AuthMiddlewaves;
 using OpenAPI.Models.Entity;
 using Microsoft.EntityFrameworkCore;
+using OpenAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +27,7 @@ builder.Services.AddControllersWithViews(options =>
     .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.UserAuthMiddlewave(builder.Configuration);
+builder.Services.AddSwaggerDocumentConfig(builder.Configuration);
 
 
 
@@ -42,10 +43,13 @@ if (app.Environment.IsDevelopment())
 
 }
 
-app.UseHttpsRedirection();
+app.UserSwaggerDocument(builder.Configuration);
 
+app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseStaticFiles();
 
 app.Run();

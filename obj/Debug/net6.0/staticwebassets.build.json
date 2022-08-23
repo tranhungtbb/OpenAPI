@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "1e7Ow9jInSEu0HYhDCmFYTIigIfmqZkm5Uv2HW2AiSY=",
+  "Hash": "9+IRUvo0tDfvSFye2kifI4yS9nC+eXL7g8ZA/b3qU9I=",
   "Source": "OpenAPI",
   "BasePath": "_content/OpenAPI",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "OpenAPI\\wwwroot",
+      "Source": "OpenAPI",
+      "ContentRoot": "D:\\HungTD\\C#\\open-api\\OpenAPI\\wwwroot\\",
+      "BasePath": "_content/OpenAPI",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

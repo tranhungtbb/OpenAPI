@@ -5,11 +5,11 @@ namespace OpenAPI.Repository
 {
     public interface IRepository<T> : IDisposable where T : class
     {
-        int Add (T entity);
-        int Update (T entity);
-        int Delete (T entity);
-        Task<T> Get (int id);
-        Task<List<T>> GetAll();
+        Task<T> AddAsync(T entity);
+        void Update(T entity);
+        Task<T?> DeleteAsync(int Id);
+        Task<T?> GetAsync(int id);
+        List<T> GetAll();
 
         Task SaveChangesAsync(CancellationToken cancellationToken);
     }
@@ -23,39 +23,45 @@ namespace OpenAPI.Repository
             this._context = context;
         }
 
-        public int AddAsync(T entity)
+        public virtual async Task<T> AddAsync(T entity)
         {
-            return _context.Set<T>().AddAsync(entity);
+            await _context.Set<T>().AddAsync(entity);
+            return entity;
         }
 
-        public int Delete(T entity)
+        public virtual void Update(T entity)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().Update(entity);
+        }
+
+
+        public async virtual Task<T?> DeleteAsync(int Id)
+        {
+            var entity = await _context.FindAsync<T>(Id);
+            _context.Set<T>().Remove(entity);
+            return entity;
+        }
+
+       
+        public virtual async Task<T?> GetAsync(int id)
+        {
+            return await _context.FindAsync<T>(id);
+        }
+
+        public virtual List<T> GetAll()
+        {
+            return _context.Set<T>().ToList();
+        }
+
+        public virtual async Task SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _context.Dispose();
         }
 
-        public Task<T> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<T>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SaveChangesAsync(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int Update(T entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
