@@ -9,14 +9,16 @@
       "OpenAPI/1.0.0": {
         "dependencies": {
           "FluentValidation.AspNetCore": "11.2.1",
+          "FluentValidation.DependencyInjectionExtensions": "11.2.0",
           "IdentityServer4.AccessTokenValidation": "3.0.1",
-          "MediatR": "10.0.1",
+          "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.1",
           "Microsoft.Data.SqlClient": "5.0.0",
           "Microsoft.EntityFrameworkCore.Design": "6.0.8",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.8",
           "Microsoft.EntityFrameworkCore.Tools": "6.0.8",
           "NSwag.AspNetCore": "13.16.1",
           "NSwag.Generation": "13.16.1",
+          "NSwag.MSBuild": "13.16.1",
           "Newtonsoft.Json": "13.0.1",
           "Serilog": "2.11.0"
         },
@@ -149,6 +151,18 @@
           "lib/netstandard2.0/MediatR.Contracts.dll": {
             "assemblyVersion": "1.0.1.0",
             "fileVersion": "1.0.1.0"
+          }
+        }
+      },
+      "MediatR.Extensions.Microsoft.DependencyInjection/10.0.1": {
+        "dependencies": {
+          "MediatR": "10.0.1",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/MediatR.Extensions.Microsoft.DependencyInjection.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.1.0"
           }
         }
       },
@@ -613,6 +627,7 @@
           }
         }
       },
+      "NSwag.MSBuild/13.16.1": {},
       "Serilog/2.11.0": {
         "runtime": {
           "lib/net5.0/Serilog.dll": {
@@ -936,6 +951,13 @@
       "sha512": "sha512-NsRvOxthhkYml4DcBMyJsmym8C4MchioH7wxKVPEg7plFj9Euh/i4IcmZ3Gvgx6+K8obeuhPeJdoBl56wnuo3A==",
       "path": "mediatr.contracts/1.0.1",
       "hashPath": "mediatr.contracts.1.0.1.nupkg.sha512"
+    },
+    "MediatR.Extensions.Microsoft.DependencyInjection/10.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-mYdfMvpkahCAj4tRfBoeMlUBZa2WthaONdQ4y5TtIyxcZYb5e7AE7c1eITTZVWcQhguxvD8AdExdaiAW6RhrVA==",
+      "path": "mediatr.extensions.microsoft.dependencyinjection/10.0.1",
+      "hashPath": "mediatr.extensions.microsoft.dependencyinjection.10.0.1.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication.JwtBearer/3.0.0": {
       "type": "package",
@@ -1265,6 +1287,13 @@
       "sha512": "sha512-cZsgva/LJAGX3s3wlID+xSoGD5oH0H9ZoVXL2GJztHUENZuXFyBi3eMOaUVw/h1BDhRfKID/lKiA/2XxI6NWag==",
       "path": "nswag.generation.aspnetcore/13.16.1",
       "hashPath": "nswag.generation.aspnetcore.13.16.1.nupkg.sha512"
+    },
+    "NSwag.MSBuild/13.16.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-P5qkQRW7Vfu3YvbFs5K92/vsId1eXgL6VF/es9xugELKQZuhDMUwY9TkmkPMloEuEnLeau9qt7fLbxxP/ChQpg==",
+      "path": "nswag.msbuild/13.16.1",
+      "hashPath": "nswag.msbuild.13.16.1.nupkg.sha512"
     },
     "Serilog/2.11.0": {
       "type": "package",

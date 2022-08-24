@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using OpenAPI.Filter;
-using FluentValidation.AspNetCore;
 using System.Text.Json.Serialization;
 using OpenAPI.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 using OpenAPI.Middleware;
+using System.Reflection;
+using MediatR;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using OpenAPI.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +24,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.UseDependencyInjection();
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<ApiExceptionFilterAttribute>())
@@ -28,6 +35,7 @@ builder.Services.AddControllersWithViews(options =>
 
 builder.Services.UserAuthMiddlewave(builder.Configuration);
 builder.Services.AddSwaggerDocumentConfig(builder.Configuration);
+builder.Services.AppAddCors(builder.Configuration);
 
 
 
@@ -42,7 +50,6 @@ if (app.Environment.IsDevelopment())
 {
 
 }
-
 app.UserSwaggerDocument(builder.Configuration);
 
 app.UseHttpsRedirection();

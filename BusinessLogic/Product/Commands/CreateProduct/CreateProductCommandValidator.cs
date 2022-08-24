@@ -6,9 +6,9 @@ namespace OpenAPI.BusinessLogic.Product.Commands.CreateProduct
 {
     public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
     {
-        private readonly IRepository<Models.Entity.Product> _context;
+        private readonly IProductRepository _context;
 
-        public CreateProductCommandValidator(IRepository<Models.Entity.Product> context)
+        public CreateProductCommandValidator(IProductRepository context)
         {
             _context = context;
 
@@ -26,7 +26,7 @@ namespace OpenAPI.BusinessLogic.Product.Commands.CreateProduct
 
         public async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
         {
-            return _context.GetAll().Exists(l => l.Name != title);
+            return await Task.FromResult(_context.GetAll().Exists(l => l.Name != title));
         }
     }
 }

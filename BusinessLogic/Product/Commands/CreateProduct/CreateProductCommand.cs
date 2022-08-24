@@ -12,11 +12,11 @@ namespace OpenAPI.BusinessLogic.Product.Commands.CreateProduct
         public int? Category { get; set; }
     }
 
-    public class CreateTodoListCommandHandler : IRequestHandler<CreateProductCommand, int>
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
     {
         private readonly IProductRepository _productRepository;
 
-        public CreateTodoListCommandHandler(IProductRepository productRepository)
+        public CreateProductCommandHandler(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
