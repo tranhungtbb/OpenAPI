@@ -12,60 +12,39 @@ namespace DbContextHelper.ReadDbContext
 
         }
 
-        public async Task<IEnumerable<T>> QueryAsync<T>(string stringQuerry, object param = null, IDbTransaction transaction = null, int? commandTimeout = 150) {
-            using (SqlConnection conn = GetConnection())
-            {
-                conn.Open();
-                return await conn.QueryAsync<T>(stringQuerry, param, transaction, commandTimeout, CommandType.Text);
-            }
-        }
-
-       
-
-        public async Task<IEnumerable<T>> QueryAsync<T>(string stringQuerry, Dictionary<string, string> dictionary = null, IDbTransaction transaction = null, int? commandTimeout = 150) {
-            using (SqlConnection conn = GetConnection()) {
-                conn.Open();
-                DynamicParameters dynamicParameters = new DynamicParameters();
-                return await conn.QueryAsync<T>(stringQuerry, dynamicParameters, transaction, commandTimeout, commandType: CommandType.Text);
-            }
-        }
-
-        public async Task<IEnumerable<T>> QueryAsync<T>(string stringQuerry, DynamicParameters parameters = null, IDbTransaction transaction = null, int? commandTimeout = 150)
+        public async Task<IEnumerable<T>> QueryAsync<T>(string stringQuerry, object param = null, int? commandTimeout = 150)
         {
-            using (SqlConnection conn = GetConnection())
-            {
-                conn.Open();
-                if(parameters == null) parameters = new DynamicParameters();
-                return await conn.QueryAsync<T>(stringQuerry, parameters, transaction, commandTimeout, commandType: CommandType.Text);
-            }
+            return await GetConnection().QueryAsync<T>(stringQuerry, param, transaction: null, commandTimeout, CommandType.Text);
         }
 
-        public async Task<IEnumerable<T>> QueryStoreAsync<T>(string procedureName, object param = null, IDbTransaction transaction = null, int? commandTimeout = 150)
+        public async Task<IEnumerable<T>> QueryAsync<T>(string stringQuerry, Dictionary<string, string> dictionary = null, int? commandTimeout = 150)
         {
-            using (SqlConnection conn = GetConnection()) {
-                return await conn.QueryAsync<T>(procedureName, param , transaction, commandTimeout, CommandType.StoredProcedure);
-            }
-            
+            DynamicParameters dynamicParameters = new DynamicParameters();
+            return await GetConnection().QueryAsync<T>(stringQuerry, dynamicParameters, transaction: null, commandTimeout, commandType: CommandType.Text);
         }
 
-        public async Task<IEnumerable<T>> QueryStoreAsync<T>(string procedureName, Dictionary<string, string> dictionary = null, IDbTransaction transaction = null, int? commandTimeout = 150) {
-            using (SqlConnection conn = GetConnection())
-            {
-                conn.Open();
-                DynamicParameters dynamicParameters = new DynamicParameters(dictionary);
-                return await conn.QueryAsync<T>(procedureName, dynamicParameters, transaction, commandTimeout, commandType: CommandType.StoredProcedure);
-            }
-        }
-
-
-        public async Task<IEnumerable<T>> QueryStoreAsync<T>(string procedureName, DynamicParameters parameters = null, IDbTransaction transaction = null, int? commandTimeout = 150)
+        public async Task<IEnumerable<T>> QueryAsync<T>(string stringQuerry, DynamicParameters parameters = null, int? commandTimeout = 150)
         {
-            using (SqlConnection conn = GetConnection())
-            {
-                conn.Open();
-                if (parameters == null) parameters = new DynamicParameters();
-                return await conn.QueryAsync<T>(procedureName, parameters, transaction, commandTimeout, commandType: CommandType.StoredProcedure);
-            }
+            if (parameters == null) parameters = new DynamicParameters();
+            return await GetConnection().QueryAsync<T>(stringQuerry, parameters, transaction: null, commandTimeout, commandType: CommandType.Text);
+        }
+
+        public async Task<IEnumerable<T>> QueryStoreAsync<T>(string procedureName, object param = null, int? commandTimeout = 150)
+        {
+            return await GetConnection().QueryAsync<T>(procedureName, param, transaction: null, commandTimeout, CommandType.StoredProcedure);
+        }
+
+        public async Task<IEnumerable<T>> QueryStoreAsync<T>(string procedureName, Dictionary<string, string> dictionary = null, int? commandTimeout = 150)
+        {
+            DynamicParameters dynamicParameters = new DynamicParameters(dictionary);
+            return await GetConnection().QueryAsync<T>(procedureName, dynamicParameters, transaction: null, commandTimeout, commandType: CommandType.StoredProcedure);
+        }
+
+
+        public async Task<IEnumerable<T>> QueryStoreAsync<T>(string procedureName, DynamicParameters parameters = null, int? commandTimeout = 150)
+        {
+            if (parameters == null) parameters = new DynamicParameters();
+            return await GetConnection().QueryAsync<T>(procedureName, parameters, transaction: null, commandTimeout, commandType: CommandType.StoredProcedure);
         }
 
 
@@ -107,56 +86,46 @@ namespace DbContextHelper.ReadDbContext
             using (SqlDataAdapter da = new SqlDataAdapter(cmd))
             {
                 cmd.CommandType = CommandType.Text;
-                if(parameters != null) cmd.Parameters.Add(parameters);
+                if (parameters != null) cmd.Parameters.Add(parameters);
                 conn.Open();
                 da.Fill(dt);
                 return dt;
             }
         }
 
-        public async Task<T> QueryFirstOrDefaultAsync<T>(string stringQuerry, object param = null, IDbTransaction transaction = null, int? commandTimeout = 150) {
-            using (SqlConnection conn = GetConnection())
-                return await conn.QueryFirstOrDefaultAsync<T>(stringQuerry, param, transaction, commandTimeout, CommandType.Text);
-        }
-
-        public async Task<T> QueryFirstOrDefaultAsync<T>(string stringQuerry, Dictionary<string, string> dictionary = null, IDbTransaction transaction = null, int? commandTimeout = 150) {
-            using (SqlConnection conn = GetConnection())
-            {
-                DynamicParameters dynamicParameters = new DynamicParameters(dictionary);
-                return await conn.QueryFirstOrDefaultAsync<T>(stringQuerry, dynamicParameters, transaction, commandTimeout, commandType: CommandType.Text);
-            }
-        }
-
-        public async Task<T> QueryFirstOrDefaultAsync<T>(string stringQuerry, DynamicParameters parameters = null, IDbTransaction transaction = null, int? commandTimeout = 150)
+        public async Task<T> QueryFirstOrDefaultAsync<T>(string stringQuerry, object param = null, int? commandTimeout = 150)
         {
-            using (SqlConnection conn = GetConnection())
-            {
-                if (parameters == null) parameters = new DynamicParameters();
-                return await conn.QueryFirstOrDefaultAsync<T>(stringQuerry, parameters, transaction, commandTimeout, commandType: CommandType.Text);
-            }
+            return await GetConnection().QueryFirstOrDefaultAsync<T>(stringQuerry, param, transaction: null, commandTimeout, CommandType.Text);
         }
 
-
-        public async Task<T> QueryFirstOrDefaultStoreAsync<T>(string procedureName, object param = null, IDbTransaction transaction = null, int? commandTimeout = 150) {
-            using (SqlConnection conn = GetConnection())
-                return await conn.QueryFirstOrDefaultAsync<T>(procedureName, param, transaction, commandTimeout, CommandType.StoredProcedure);
-        }
-
-        public async Task<T> QueryFirstOrDefaultStoreAsync<T>(string procedureName, Dictionary<string, string> dictionary = null, IDbTransaction transaction = null, int? commandTimeout = 150) {
-            using (SqlConnection conn = GetConnection())
-            {
-                DynamicParameters dynamicParameters = new DynamicParameters(dictionary);
-                return await conn.QueryFirstOrDefaultAsync<T>(procedureName, dynamicParameters, transaction, commandTimeout, commandType: CommandType.StoredProcedure);
-            }
-        }
-
-        public async Task<T> QueryFirstOrDefaultStoreAsync<T>(string procedureName, DynamicParameters parameters = null, IDbTransaction transaction = null, int? commandTimeout = 150)
+        public async Task<T> QueryFirstOrDefaultAsync<T>(string stringQuerry, Dictionary<string, string> dictionary = null, int? commandTimeout = 150)
         {
-            using (SqlConnection conn = GetConnection())
-            {
-                if (parameters == null) parameters = new DynamicParameters();
-                return await conn.QueryFirstOrDefaultAsync<T>(procedureName, parameters, transaction, commandTimeout, commandType: CommandType.StoredProcedure);
-            }
+            DynamicParameters dynamicParameters = new DynamicParameters(dictionary);
+            return await GetConnection().QueryFirstOrDefaultAsync<T>(stringQuerry, dynamicParameters, transaction: null, commandTimeout, commandType: CommandType.Text);
+        }
+
+        public async Task<T> QueryFirstOrDefaultAsync<T>(string stringQuerry, DynamicParameters parameters = null, int? commandTimeout = 150)
+        {
+            if (parameters == null) parameters = new DynamicParameters();
+            return await GetConnection().QueryFirstOrDefaultAsync<T>(stringQuerry, parameters, transaction: null, commandTimeout, commandType: CommandType.Text);
+        }
+
+
+        public async Task<T> QueryFirstOrDefaultStoreAsync<T>(string procedureName, object param = null, int? commandTimeout = 150)
+        {
+            return await GetConnection().QueryFirstOrDefaultAsync<T>(procedureName, param, transaction: null, commandTimeout, CommandType.StoredProcedure);
+        }
+
+        public async Task<T> QueryFirstOrDefaultStoreAsync<T>(string procedureName, Dictionary<string, string> dictionary = null, int? commandTimeout = 150)
+        {
+            DynamicParameters dynamicParameters = new DynamicParameters(dictionary);
+            return await GetConnection().QueryFirstOrDefaultAsync<T>(procedureName, dynamicParameters, transaction: null, commandTimeout, commandType: CommandType.StoredProcedure);
+        }
+
+        public async Task<T> QueryFirstOrDefaultStoreAsync<T>(string procedureName, DynamicParameters parameters = null, int? commandTimeout = 150)
+        {
+            if (parameters == null) parameters = new DynamicParameters();
+            return await GetConnection().QueryFirstOrDefaultAsync<T>(procedureName, parameters, transaction: null, commandTimeout, commandType: CommandType.StoredProcedure);
         }
     }
 }

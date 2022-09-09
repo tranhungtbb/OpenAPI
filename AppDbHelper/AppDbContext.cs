@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace DbContextHelper
     public interface IAppDbContext
     {
         SqlConnection GetConnection();
-        Task BeginTransactionAsync(CancellationToken cancellationToken = default);
+        DbTransaction BeginTransaction();
         Task CommitAsync(CancellationToken cancellationToken = default);
-        void Rollback();
+        Task RollbackAsync();
     }
 
     public class AppDbContext : IAppDbContext
@@ -22,26 +23,31 @@ namespace DbContextHelper
         private DbTransaction _dbTransaction;
 
         private readonly IAppSettings _appSettings;
-
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public AppDbContext(IAppSettings appSettings) {
             this._appSettings = appSettings;
-        }
 
-        public AppDbContext()
-        {
         }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         public SqlConnection GetConnection()
         {
-            this._sqlConnection = new SqlConnection(_appSettings.GetConnectstring());
+            if (this._sqlConnection == null)
+            {
+                this._sqlConnection = new SqlConnection(_appSettings.GetConnectstring());
+            }
+            if (this._sqlConnection.State != ConnectionState.Open)
+            {
+                this._sqlConnection.Close();
+                this._sqlConnection.Open();
+            }
             return this._sqlConnection;
         }
 
-        public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
+        public DbTransaction BeginTransaction()
         {
-            this._dbTransaction = await this._sqlConnection.BeginTransactionAsync(cancellationToken);
+            this._dbTransaction = this._sqlConnection.BeginTransaction();
+            return this._dbTransaction;
         }
 
         public async Task CommitAsync(CancellationToken cancellationToken = default)
@@ -49,9 +55,9 @@ namespace DbContextHelper
             await this._dbTransaction.CommitAsync(cancellationToken);
         }
 
-        public void Rollback()
+        public async Task RollbackAsync()
         {
-            this._dbTransaction.Rollback();
+            await this._dbTransaction.RollbackAsync();
         }
     }
 }
