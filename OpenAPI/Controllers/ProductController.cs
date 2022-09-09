@@ -40,8 +40,8 @@ namespace OpenAPI.Controllers
         }
 
         [HttpGet("GetList")]
-        [ResponseType(typeof(List<GetListProductQueryVm>))]
-        public async Task<ActionResult<List<GetListProductQueryVm>>> GetList()
+        [ResponseType(typeof(IEnumerable<GetListProductQueryVm>))]
+        public async Task<ActionResult<IEnumerable<GetListProductQueryVm>>> GetList()
         {
             return await Mediator.Send(new GetListProductQuery());
         }

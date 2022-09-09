@@ -17,21 +17,19 @@ namespace OpenAPI.BusinessLogic.Product.Queries.GetListProduct
     }
 
 
-    public class GetListProductQueryHandler : IRequestHandler<GetListProductQuery, List<GetListProductQueryVm>>
+    public class GetListProductQueryHandler : IRequestHandler<GetListProductQuery, IEnumerable<GetListProductQueryVm>>
     {
-        private readonly IProductRepository _productRepository;
         private readonly IAppReadDbContext _appReadDbContext;
-        public GetListProductQueryHandler(IProductRepository productRepository, IAppReadDbContext appReadDbContext)
+        public GetListProductQueryHandler(IAppReadDbContext appReadDbContext)
         {
-            _productRepository = productRepository;
             _appReadDbContext = appReadDbContext;
         }
-        public async Task<List<GetListProductQueryVm>> Handle(GetListProductQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<GetListProductQueryVm>> Handle(GetListProductQuery request, CancellationToken cancellationToken)
         {
             try
             {
                 string querry = "[GetListProduct]";
-                return (await _appReadDbContext.QueryStoreAsync<GetListProductQueryVm>(querry, new { GetListProductParam = request.ToDataTable() })).ToList();
+                return (await _appReadDbContext.QueryStoreAsync<GetListProductQueryVm>(querry, new { GetListProductParam = request.ToDataTable() }));
             }
             catch (Exception ex)
             {
